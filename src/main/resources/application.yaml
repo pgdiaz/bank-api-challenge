@@ -1,0 +1,22 @@
+spring:
+  jackson:
+    default-property-inclusion: non_null
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+info:
+  application:
+    version: '@project.version@'
+    description: '@project.description@'
+    name: '@project.name@'
+
+springdoc:
+  packagesToScan: com.alta
+  pathsToMatch: /**
+  defaultConsumesMediaType: application/json
+  defaultProducesMediaType: application/json
+  swagger-ui:
+    defaultModelsExpandDepth: -1
