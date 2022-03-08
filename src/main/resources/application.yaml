@@ -2,9 +2,11 @@ spring:
   jackson:
     default-property-inclusion: non_null
   jpa:
+    open-in-view: true
     show-sql: false
     properties:
       hibernate:
+        generate-statistics: true
         format_sql: false
 
 info:

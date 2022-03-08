@@ -12,9 +12,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.alta.bank.dto.CreateUserDto;
-import com.alta.bank.dto.UserDto;
+import com.alta.bank.dto.UserLoanDto;
 import com.alta.bank.exceptions.ResourceNotFoundException;
-import com.alta.bank.repositories.UserRepository;
+import com.alta.bank.infrastructure.UserRepository;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -39,7 +39,7 @@ public class UserControllerTests {
     @Test
     public void getSuccessfully() throws Exception {
 
-        when(this.repository.findById(anyLong())).thenReturn(new UserDto());
+        when(this.repository.findById(anyLong())).thenReturn(new UserLoanDto());
 
         this.mockMvc.perform(get("/users/1"))
             .andExpect(status().isOk())
@@ -84,7 +84,7 @@ public class UserControllerTests {
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"email\":\"test@alta.com\", \"firstName\":\"Pepe\", \"lastName\":\"Argento\"}");
 
-        when(this.repository.save(any(CreateUserDto.class))).thenReturn(new UserDto());
+        when(this.repository.save(any(CreateUserDto.class))).thenReturn(new UserLoanDto());
 
         this.mockMvc.perform(request)
             .andExpect(status().isCreated())

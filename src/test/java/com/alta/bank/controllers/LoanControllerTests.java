@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.alta.bank.dto.LoanDto;
 import com.alta.bank.dto.PaginationDto;
-import com.alta.bank.repositories.LoanRepository;
+import com.alta.bank.infrastructure.LoanRepository;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

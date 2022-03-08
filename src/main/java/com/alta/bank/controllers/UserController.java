@@ -5,7 +5,8 @@ import javax.validation.constraints.Min;
 
 import com.alta.bank.dto.CreateUserDto;
 import com.alta.bank.dto.UserDto;
-import com.alta.bank.repositories.UserRepository;
+import com.alta.bank.dto.UserLoanDto;
+import com.alta.bank.infrastructure.UserRepository;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,7 +36,7 @@ public class UserController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public UserDto get(@PathVariable @Min(1) Long id) {
+    public UserLoanDto get(@PathVariable @Min(1) Long id) {
         return this.repository.findById(id);
     }
 

@@ -2,6 +2,7 @@ package com.alta.bank.advice;
 
 import javax.validation.ConstraintViolationException;
 
+import com.alta.bank.exceptions.DatabaseException;
 import com.alta.bank.exceptions.ResourceNotFoundException;
 
 import org.slf4j.Logger;
@@ -33,6 +34,12 @@ public class ApiErrorAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handlerContraintViolation(ConstraintViolationException e) {
         logger.error("[HandlerContraintViolation]", e);
+    }
+
+    @ExceptionHandler(DatabaseException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public void handlerDatabase(DatabaseException e) {
+        logger.error("[HandlerDatabase]", e);
     }
 
 }
