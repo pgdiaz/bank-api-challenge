@@ -68,7 +68,8 @@ public class LoanControllerTests {
     public void searchInvalidRequest(String input) throws Exception {
 
         this.mockMvc.perform(get(input))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         verify(this.repository, times(0)).findByUserId(anyLong(), anyInt(), anyInt());
         verify(this.repository, times(0)).getAll(anyInt(), anyInt());

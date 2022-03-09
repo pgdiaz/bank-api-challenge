@@ -3,6 +3,7 @@ package com.alta.bank.controllers;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -52,7 +53,8 @@ public class UserControllerTests {
     public void getInvalidId() throws Exception {
 
         this.mockMvc.perform(get("/users/a"))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         verify(this.repository, times(0)).findById(anyLong());
     }
@@ -61,7 +63,8 @@ public class UserControllerTests {
     public void getInvalidMinId() throws Exception {
 
         this.mockMvc.perform(get("/users/-1"))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         verify(this.repository, times(0)).findById(anyLong());
     }
@@ -72,7 +75,8 @@ public class UserControllerTests {
         when(this.repository.findById(anyLong())).thenThrow(new ResourceNotFoundException());
 
         this.mockMvc.perform(get("/users/9999999"))
-            .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         verify(this.repository, times(1)).findById(eq(9999999L));
     }
@@ -105,7 +109,8 @@ public class UserControllerTests {
             .content(input);
 
         this.mockMvc.perform(request)
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         verify(this.repository, times(0)).save(any(CreateUserDto.class));
     }
@@ -122,8 +127,9 @@ public class UserControllerTests {
     @Test
     public void removeInvalidId() throws Exception {
 
-        this.mockMvc.perform(get("/users/a"))
-            .andExpect(status().isBadRequest());
+        this.mockMvc.perform(delete("/users/a"))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         verify(this.repository, times(0)).deleteById(anyLong());
     }
@@ -131,10 +137,23 @@ public class UserControllerTests {
     @Test
     public void removeInvalidMinId() throws Exception {
 
-        this.mockMvc.perform(get("/users/-1"))
-            .andExpect(status().isBadRequest());
+        this.mockMvc.perform(delete("/users/-1"))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         verify(this.repository, times(0)).deleteById(anyLong());
+    }
+
+    @Test
+    public void removeNotFound() throws Exception {
+
+        doThrow(new ResourceNotFoundException()).when(this.repository).deleteById(anyLong());
+
+        this.mockMvc.perform(delete("/users/9999999"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+        verify(this.repository, times(1)).deleteById(eq(9999999L));
     }
 
 }

@@ -3,7 +3,7 @@ package com.alta.bank.exceptions;
 public class ResourceNotFoundException extends RuntimeException {
 
     public ResourceNotFoundException() {
-        super();
+        super("Resource not found");
     }
 
 }
